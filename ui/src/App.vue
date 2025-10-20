@@ -131,13 +131,13 @@ function handleGenerate() {
     const selection = editor.value?.getSelectionBox()!
     console.log('Generate requested for area:', selection)
     generate(editor.value!.getMidi(), {
-        range_to_generate: {
-            start_beat: selection.x,
-            end_beat: selection.x + selection.width
+        range: {
+            start: selection.x,
+            end: selection.x + selection.width
         },
         segments: sections.value.map(s => ({
-            start_bar: s.start,
-            end_bar: s.end,
+            start: s.start * 4,
+            end: s.end * 4,
             label: s.label,
             is_seed: s.isSeed
         })),
@@ -164,12 +164,12 @@ function handleGenerate() {
 
                 let duration = 0
                 if (noteData[3] == 0) {
-                    duration = 32 - noteData[0] % 32
+                    duration = 4 - noteData[0] % 4
                 } else {
                     duration = noteData[3]
                 }
                 const pitch = noteData[1]
-                const note = new Note(noteData[0] / 8, duration / 8, noteData[1], noteData[2])
+                const note = new Note(noteData[0], duration, noteData[1], noteData[2])
 
                 const last = lastNoteOfPitch.get(pitch)
                 if (last) {

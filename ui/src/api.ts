@@ -2,18 +2,18 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
 type RangeToGenerate = {
-  start_beat: number;
-  end_beat: number;
+  start: number;
+  end: number;
 };
 
 type SegmentInfo = {
-  start_bar: number;
-  end_bar: number;
+  start: number;
+  end: number;
   label: string;
 };
 
 type GenerateParams = {
-  range_to_generate: RangeToGenerate;
+  range: RangeToGenerate;
   segments: SegmentInfo[];
   song_duration: number;
 }

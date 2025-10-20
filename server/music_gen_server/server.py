@@ -10,17 +10,17 @@ from pydantic import BaseModel
 import uvicorn
 
 class RangeToGenerate(BaseModel):
-    start_beat: int
-    end_beat: int
+    start: int
+    end: int
 
 class SegmentInfo(BaseModel):
-    start_bar: int
-    end_bar: int
+    start: int
+    end: int
     label: str
     is_seed: bool
 
 class GenerateParams(BaseModel):
-    range_to_generate: RangeToGenerate
+    range: RangeToGenerate
     segments: list[SegmentInfo]
     song_duration: int
 class MusicGenServer:
