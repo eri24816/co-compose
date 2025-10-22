@@ -141,7 +141,7 @@ function handleGenerate() {
             label: s.label,
             is_seed: s.isSeed
         })),
-        song_duration: sections.value.reduce((max, s) => Math.max(max, s.end), 0) * 32
+        song_duration: sections.value.reduce((max, s) => Math.max(max, s.end), 0) * 4
     }).then(async (response: Response) => {
         const reader = response.body!.getReader()
         const decoder = new TextDecoder()

@@ -1,8 +1,8 @@
-from music_gen_server.server import MusicGenServer, GenerateParams
+from co_compose import CoComposeServer, GenerateParams
 import miditoolkit.midi.parser
 import asyncio
 
-class MyServer(MusicGenServer):
+class MyServer(CoComposeServer):
 
     async def generate(self, midi: miditoolkit.midi.parser.MidiFile, params: GenerateParams, cancel_event: asyncio.Event):
         # generate music here

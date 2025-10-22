@@ -23,7 +23,7 @@ class GenerateParams(BaseModel):
     range: RangeToGenerate
     segments: list[SegmentInfo]
     song_duration: int
-class MusicGenServer:
+class CoComposeServer:
     def __init__(self, frontend_dir: str='../ui/dist'):
         self._app = FastAPI()
         self._frontend_dir = frontend_dir

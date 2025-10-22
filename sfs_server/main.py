@@ -3,7 +3,7 @@ import threading
 import traceback
 from typing import cast
 from music_data_analysis import Pianoroll
-from music_gen_server import MusicGenServer, GenerateParams
+from co_compose import CoComposeServer, GenerateParams
 import safetensors.torch
 import miditoolkit.midi.parser
 from segment_full_song import SegmentFullSongModel, create_model
@@ -28,7 +28,7 @@ class MyQueue(asyncio.Queue):
             raise StopAsyncIteration
         return item
 
-class SegmentFullSongMusicGenServer(MusicGenServer):
+class SegmentFullSongServer(CoComposeServer):
     def __init__(self, device="cuda"):
         super().__init__()
         print('creating model')
@@ -43,7 +43,7 @@ class SegmentFullSongMusicGenServer(MusicGenServer):
         frames_per_beat = 8
         beats_per_bar = 4
         pr = Pianoroll.from_midi(midi, frames_per_beat=frames_per_beat, beats_per_bar=beats_per_bar)
-        pr.duration=params.song_duration
+        pr.duration=params.song_duration * frames_per_beat
 
         segments = []
         for segment in params.segments:
@@ -63,17 +63,18 @@ class SegmentFullSongMusicGenServer(MusicGenServer):
 
         generate_note_queue = MyQueue()
         def generate_note_callback(note: tuple[int, int, int, int]):
-            generate_note_queue.put_nowait(note)
+            onset, pitch, velocity, duration = note
+            generate_note_queue.put_nowait((onset / frames_per_beat, pitch, velocity, duration / frames_per_beat))
  
-        def thread_task():
+        def inference_thread_task():
             try: 
-                self.model.generate(segments, existing_pianoroll=pr, target_start_bar=params.range.start_beat // beats_per_bar, target_end_bar=params.range.end_beat // beats_per_bar, generate_note_callback=generate_note_callback, seed_start_bar=seed_start_bar,top_p=0.97)
+                self.model.generate(segments, existing_pianoroll=pr, target_start_bar=params.range.start // beats_per_bar, target_end_bar=params.range.end // beats_per_bar, generate_note_callback=generate_note_callback, seed_start_bar=seed_start_bar,top_p=0.975)
 
             except Exception:
                 traceback.print_exc()
 
             generate_note_queue.put_nowait(None)
-        threading.Thread(target=thread_task).start()
+        threading.Thread(target=inference_thread_task).start()
 
         async for note in generate_note_queue:
             if note is None:
@@ -84,7 +85,7 @@ class SegmentFullSongMusicGenServer(MusicGenServer):
                 break
 
 
-server = SegmentFullSongMusicGenServer()
+server = SegmentFullSongServer()
 app = server.get_app()
 
 
