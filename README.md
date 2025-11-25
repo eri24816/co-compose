@@ -5,14 +5,15 @@ This project is initially developed for [Segment-Factorized Full-Song Generation
 
 The UI provides a piano roll editor where user and AI collaborate on music. Both user and AI can create and edit the musical content.
 
-## Using a custom backend
-
-1. Build the frontend:
+## Build frontend (run once before use)
     ```bash
     cd ui
     npm install
     npm run build
     ```
+
+
+## Using a custom backend
 
 2. Install Python dependencies:
     ```bash
