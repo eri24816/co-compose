@@ -15,7 +15,7 @@ npm run build
 
 ## Using a custom backend
 
-2. Install Python dependencies:
+1. Install Python dependencies:
     ```bash
     pip install -e server
     ```
