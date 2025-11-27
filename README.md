@@ -1,3 +1,6 @@
+<img width="1863" height="661" alt="image" src="https://github.com/user-attachments/assets/f31fab37-7069-47a6-a7a5-04b7da93f703" />
+
+
 # co-compose
 A UI for co-creating music with AI.
 
