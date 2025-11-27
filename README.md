@@ -60,3 +60,35 @@ npm run build
     cd sfs_server
     python main.py
     ```
+
+## UI Usage
+
+
+### Structure Editor
+Define your song structure, which serves as a condition for generation. The structure can be specified beforehand or adjusted during composition.
+
+- Drag the left or right edge of a segment to resize it  
+- Click a segment to assign its label
+
+### Piano Roll
+The workspace where users and AI collaborate on music. *Note that the seed segment should be composed prior to other segments.*
+
+- Space bar: Toggle play  
+- Click on empty space: Create a note  
+- Drag: Move a note  
+- Right-click: Delete a note  
+- Scroll wheel: Pan  
+- Control + scroll: Zoom
+
+### Assets
+Provides several 8-bar MIDI assets that users can drag into the piano roll.
+
+- Drag assets into the piano roll as starting material or to combine with existing composition  
+- Import additional assets from your disk  
+- Click on an asset to preview it
+
+### Bar Selection
+Enables quick selection of one or multiple bars, which can then be used with the command palette.
+
+### Command Palette
+Click *Generate!* to let the AI generate content for the selected range, or use other buttons to perform different operations.

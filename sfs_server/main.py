@@ -7,6 +7,18 @@ from co_compose import CoComposeServer, GenerateParams
 import safetensors.torch
 import miditoolkit.midi.parser
 from segment_full_song import SegmentFullSongModel, create_model
+import pathlib
+here = pathlib.Path(__file__).parent
+
+ckpt_path = here / "epoch=384-step=2000000.safetensors"
+if not ckpt_path.exists():
+    raise FileNotFoundError(f"Model file not found at {ckpt_path}")
+
+config_path = here / "segment_full_song.yaml"
+if not config_path.exists():
+    raise FileNotFoundError(f"Config file not found at {config_path}")
+
+frontend_dir = here / "../ui/dist"
 
 class MyQueue(asyncio.Queue):
     def __init__(self):
@@ -30,11 +42,11 @@ class MyQueue(asyncio.Queue):
 
 class SegmentFullSongServer(CoComposeServer):
     def __init__(self, device="cuda"):
-        super().__init__()
+        super().__init__(frontend_dir=frontend_dir.as_posix())
         print('creating model')
-        self.model = cast(SegmentFullSongModel,create_model('segment_full_song.yaml'))
+        self.model = cast(SegmentFullSongModel,create_model(config_path.as_posix()))
         print('loading model')
-        self.model.load_state_dict(safetensors.torch.load_file('epoch=384-step=2000000.safetensors'))
+        self.model.load_state_dict(safetensors.torch.load_file(ckpt_path.as_posix()))
         self.model.eval() 
         self.model.to(device)
         print('model loaded')
