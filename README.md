@@ -15,6 +15,8 @@ npm run build
 
 ## Using a custom backend
 
+Recommend using Python 3.13.
+
 1. Install Python dependencies:
     ```bash
     pip install -e server
@@ -48,7 +50,15 @@ npm run build
 
 ## Using pretrained [Segment Full Song (SFS) model](https://github.com/eri24816/segmented-full-song-gen) as backend
 
-1. Install the SFS model:
+Recommend using Python 3.13.
+
+1. Install Python dependencies:
+    ```bash
+    pip install -e server
+    ```
+
+
+2. Install the SFS model:
     ```bash
     pip install git+https://github.com/eri24816/segmented-full-song-gen.git
     ```
@@ -57,6 +67,5 @@ npm run build
 
 4. Run the server:
     ```bash
-    cd sfs_server
-    python main.py
+    python sfs_server/main.py
     ```
