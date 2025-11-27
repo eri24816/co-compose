@@ -8,7 +8,15 @@ class MyServer(CoComposeServer):
         # generate music here
         # yield the generated notes in the format of (onset, pitch, velocity, duration)
         for i in range(params.range.end - params.range.start):
+
+            # simulate inference delay
             await asyncio.sleep(0.1)
+
+            if cancel_event.is_set():
+                print("cancelling generation")
+                break
+
+            # yield (onset, pitch, velocity, duration). Onset and duration are in beats.
             yield (params.range.start + i, 60 + i, 100, 1.0)
 
 server = MyServer()

@@ -20,5 +20,8 @@ classifiers = [
 dependencies = [
     "uvicorn~=0.34.3",
     "fastapi~=0.115.12",
+    "pydantic~=2.12.4",
+    "miditoolkit~=1.0.1",
+    "python-multipart~=0.0.20",
 ]
 
